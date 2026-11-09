@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Laufzeitdaten (Datenbank, Uploads)
+data/
+*.db
+*.sqlite3
+
+# Tests & Tools
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / Betriebssystem
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
