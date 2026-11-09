@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerleihFramework &middot; Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">VF</span>
+        <div>
+          <strong>VerleihFramework</strong>
+          <small>Verleihsystem</small>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-view="rentals"><span>⇄</span> Verleihvorgänge</button>
+        <button class="nav-item" data-view="items"><span>⛷</span> Gegenstände</button>
+        <button class="nav-item" data-view="customers"><span>☺</span> Kunden</button>
+        <button class="nav-item" data-view="pricing"><span>€</span> Preise</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div id="plugin-badge" class="badge-soft">Plugins werden geladen …</div>
+        <small>Version {{ version }}</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 id="page-title">Dashboard</h1>
+          <p id="page-subtitle" class="muted">Überblick über Verleih, Rückgaben und Einnahmen</p>
+        </div>
+        <div class="topbar-actions">
+          <span id="today" class="pill"></span>
+          <button class="btn btn-primary" id="primary-action">Neuer Verleih</button>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section class="view" id="view-dashboard">
+        <div class="kpi-grid" id="kpis"></div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head">
+              <h2>Rückgaben im Blick</h2>
+              <span class="muted small">heute &amp; nächste 7 Tage</span>
+            </div>
+            <div id="due-list" class="list"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h2>Bestand nach Verleihart</h2>
+              <span class="muted small">Plugin-Typen</span>
+            </div>
+            <div id="type-breakdown" class="bars"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Letzte Vorgänge</h2>
+            <button class="btn btn-ghost small" data-goto="rentals">Alle anzeigen</button>
+          </div>
+          <div class="table-wrap"><table id="recent-table"></table></div>
+        </div>
+      </section>
+
+      <!-- Verleih -->
+      <section class="view hidden" id="view-rentals">
+        <div class="toolbar">
+          <div class="segmented" id="rental-filter">
+            <button class="active" data-status="">Alle</button>
+            <button data-status="active">Aktiv</button>
+            <button data-status="overdue">Überfällig</button>
+            <button data-status="returned">Zurückgegeben</button>
+          </div>
+          <button class="btn btn-primary" data-action="new-rental">Verleih anlegen</button>
+        </div>
+        <div class="card"><div class="table-wrap"><table id="rental-table"></table></div></div>
+      </section>
+
+      <!-- Gegenstände -->
+      <section class="view hidden" id="view-items">
+        <div class="toolbar">
+          <div class="segmented" id="item-filter">
+            <button class="active" data-type="">Alle Typen</button>
+          </div>
+          <button class="btn btn-primary" data-action="new-item">Gegenstand anlegen</button>
+        </div>
+        <div class="card"><div class="table-wrap"><table id="item-table"></table></div></div>
+      </section>
+
+      <!-- Kunden -->
+      <section class="view hidden" id="view-customers">
+        <div class="toolbar">
+          <p class="muted small">Kunden werden über Ausweis eindeutig identifiziert. Ohne Ausweis ist kein Verleih möglich.</p>
+          <button class="btn btn-primary" data-action="new-customer">Kunde anlegen</button>
+        </div>
+        <div class="card"><div class="table-wrap"><table id="customer-table"></table></div></div>
+      </section>
+
+      <!-- Preise -->
+      <section class="view hidden" id="view-pricing">
+        <div class="card">
+          <div class="card-head">
+            <h2>Aktive Preisregeln</h2>
+            <span class="muted small">zentral berechnet, per Plugin erweiterbar</span>
+          </div>
+          <div id="rule-list" class="rules"></div>
+        </div>
+        <p class="muted small">
+          Die Reihenfolge ergibt sich aus der Priorität der Regeln. Neue Regeln kommen
+          ausschließlich über Plugins hinzu &ndash; der Kern bleibt unverändert.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modal">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="modal-title">Dialog</h2>
+        <button class="icon-btn" data-close="modal">✕</button>
+      </div>
+      <form id="modal-form" class="modal-body"></form>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" type="button" data-close="modal">Abbrechen</button>
+        <button class="btn btn-primary" type="submit" form="modal-form" id="modal-submit">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
